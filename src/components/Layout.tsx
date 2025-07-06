@@ -1,7 +1,13 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { ReactNode } from 'react';
 
-export default function Layout({ children, title = 'Home' }: any) {
+type LayoutProps = {
+  children: ReactNode;
+  title?: string;
+};
+
+export default function Layout({ children, title = 'Home' }: LayoutProps) {
   return (
     <>
       <Head>
