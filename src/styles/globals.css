@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@im
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -33,7 +33,4 @@ body {
     width: 100%;
     color: white;
     text-align: center;
-}
-.hero-section{
-    width: 100%;
 }

@@ -1,25 +1,32 @@
+// /src/pages/blog/[slug].tsx
 import Layout from '@/components/Layout';
-import { getPostBySlug, getAllSlugs } from '@/utils/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { getAllBlogSlugs, getBlogHtml } from '@/utils/blogUtils';
 
-export default function Post({ frontMatter, content }: any) {
+export default function BlogPage({ post }: any) {
   return (
-    <Layout title={frontMatter.title}>
-      <h1 className="text-3xl font-bold mb-2">{frontMatter.title}</h1>
-      <p className="text-sm text-gray-500 mb-4">{frontMatter.date}</p>
+    <Layout title={post.title}>
+      <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
+      <p className="text-sm text-gray-500 mb-4">{post.date}</p>
       <article className="prose prose-lg">
-        <MDXRemote source={content} />
+        <MDXRemote source={post} />
       </article>
     </Layout>
   );
 }
 
-export async function getStaticPaths() {
-  const paths = getAllSlugs();
-  return { paths, fallback: false };
-}
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = getAllBlogSlugs();
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
-export async function getStaticProps({ params }: any) {
-  const { frontMatter, content } = getPostBySlug(params.slug);
-  return { props: { frontMatter, content } };
-}
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const blog = await getBlogHtml(params?.slug as string);
+  return {
+    props: blog,
+  };
+};
